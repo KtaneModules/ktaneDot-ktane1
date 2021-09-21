@@ -359,4 +359,56 @@ public class DotScript : MonoBehaviour
         yield return null;
     }
 
+    //Twitch Plays
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = @"!{0} scroll 5 to hold the scroll button for 5 seconds, !{0} submit [lyric] to submit [lyric] when it displays on the module, !{0} submit to press the submit button";
+#pragma warning restore 414
+
+    IEnumerator ProcessTwitchCommand(string command)
+    {
+        string[] parameters = command.Split(' ');
+        Match m;
+        if ((m = Regex.Match(command.Trim().ToLowerInvariant(), "scroll (\\d{1,2})")).Success)
+        {
+            float c;
+            if (!float.TryParse(m.Groups[1].Value, out c))
+                yield break;
+            yield return null;
+            upScroll.OnInteract();
+            yield return new WaitForSecondsRealtime(c);
+            upScroll.OnInteractEnded();
+        }
+        else if (Regex.IsMatch(command, @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            submit.OnInteract();
+        }
+        else if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
+        {
+            yield return null;
+            string l = parameters[1];
+            bool check = false;
+            foreach (string k in chosenLyrics)
+            {
+                if (l == k)
+                {
+                    check = true;
+                }
+            }
+            if (check)
+            {
+                while (l == selectedLyric)
+                {
+                    submit.OnInteract();
+                    yield break;
+                }
+            }
+            else
+            {
+                yield return "sendtochaterror You're trying to submit a lyric not present at all in the module.";
+                yield break;
+            }
+        }
+
+    }
 }
