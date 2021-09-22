@@ -176,14 +176,6 @@ public class DotScript : MonoBehaviour
             submittable = false;
             float top = topTextMovement.gameObject.transform.localPosition.z;
             float bottom = bottomTextMovement.gameObject.transform.localPosition.z;
-            if (top > bottom)
-            {
-                selectedLyric = bottomText.text;
-            }
-            else if (bottom > top)
-            {
-                selectedLyric = topText.text;
-            }
             Debug.LogFormat("[Dot #{0}] Submit button pressed, selected lyric is {1}", moduleId, selectedLyric);
             if (selectedLyric == chosenLyrics[lyricsSubmitted])
             {
@@ -359,6 +351,22 @@ public class DotScript : MonoBehaviour
         yield return null;
     }
 
+    void Update()
+    {
+        if (!moduleSolved)
+        {
+            float top = topTextMovement.gameObject.transform.localPosition.z;
+            float bottom = bottomTextMovement.gameObject.transform.localPosition.z;
+            if (top > bottom)
+            {
+                selectedLyric = bottomText.text;
+            }
+            else if (bottom > top)
+            {
+                selectedLyric = topText.text;
+            }
+        }
+    }
     //Twitch Plays
 #pragma warning disable 414
     private readonly string TwitchHelpMessage = @"!{0} scroll 5 to hold the scroll button for 5 seconds, !{0} submit [lyric] to submit [lyric] when it displays on the module, !{0} submit to press the submit button";
@@ -386,7 +394,18 @@ public class DotScript : MonoBehaviour
         else if (Regex.IsMatch(parameters[0], @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
             yield return null;
-            string l = parameters[1];
+            string l = "";
+            for (int i = 1; i < parameters.Length; i++)
+            {
+                if (i == 1)
+                {
+                    l = parameters[i];
+                }
+                else
+                {
+                    l = l + " " + parameters[i];
+                }
+            }
             bool check = false;
             foreach (string k in chosenLyrics)
             {
@@ -397,10 +416,19 @@ public class DotScript : MonoBehaviour
             }
             if (check)
             {
-                while (l == selectedLyric)
+                upScroll.OnInteract();
+                while (true)
                 {
-                    submit.OnInteract();
-                    yield break;
+                    if (l == selectedLyric)
+                    {
+                        upScroll.OnInteractEnded(); 
+                        submit.OnInteract();                        
+                        yield break;
+                    }
+                    else
+                    {
+                        yield return null;
+                    }
                 }
             }
             else
