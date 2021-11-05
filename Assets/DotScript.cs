@@ -409,7 +409,7 @@ public class DotScript : MonoBehaviour
                 }
                 else
                 {
-                    l = l + " " + parameters[i];
+                    l = l + "　" + parameters[i];
                 }
             }
             bool check = false;
