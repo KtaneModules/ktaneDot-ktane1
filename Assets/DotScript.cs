@@ -15,7 +15,7 @@ public class DotScript : MonoBehaviour
     public KMSelectable submit;
     public KMSelectable upScroll;
     public TextMesh topText, bottomText;
-    public GameObject topTextMovement, bottomTextMovement;
+    public Transform topTextMovement, bottomTextMovement;
 
     private string[][] songLyrics = new string[][] {
         new string[] { "大変申し訳ありませんが、", "この動画はアップロード者が削除した為、", "ご覧になることができません。", "またの御アクセスをお待ちしております。", "携帯ゲームの裏、", "フタを開けてみて、", "空っぽだったはずなのに、", "淡い光が漏れていたので、", "いたずらに覗いたら、", "デンチが腐っていた。", "掌から滑り落ち、", "叩きつけられて、", "やむ終えず覗いたら、", "画面が割れていました。", "たわむれに書いた傘の中、", "ひとりでに骨が折れ、", "心地よい音　頭蓋の中、", "湿って砕けました。", "湧き出た光る水を、", "飲んでみたくなり、", "空っぽだったはずなのに、", "器から溢れてしまいそうで、", "ひとくち含んでみたら、", "甘すぎて吐き出したよ。", "漏れ出た黒い液が、", "怖くてたまらないのに", "指先が触れてしまい、", "血液と混ざりました。", "心地よい音　頭蓋の中、", "ひとりでに骨が折れ、", "たわむれに書いた傘の中、", "全てあなたの所為です。", "心地よい音　頭蓋の中、", "ひとりでに骨が折れ、", "たわむれに書いた傘の中、", "全て██の所為です。", "沢山の目が光り、", "見つめていたのか。", "またの御アクセスをお待ちしております。" }, 
@@ -24,7 +24,7 @@ public class DotScript : MonoBehaviour
     };
     private string[] chosenLyrics = new string[5];
     private int chosenSong;
-    private static Vector3 bottomPos = new Vector3(0f, 0.011f, -0.083f);
+    private static Vector3 bottomPos = new Vector3(0f, 0.015f, -0.09f);
     private string[] shuffledLyrics = new string[5];
     private int lyricIndex = 0, lyricsSubmitted = 0;
     private string selectedLyric;
@@ -68,10 +68,8 @@ public class DotScript : MonoBehaviour
         Debug.LogFormat("[Dot #{0}] The chosen lyrics are {1} taken from Song {2} in the manual.", moduleId, fullLyrics, chosenSong+1);
         shuffledLyrics = chosenLyrics.ToArray();
         shuffledLyrics.Shuffle();
-        topTextMovement.gameObject.transform.localPosition = bottomPos;
-        bottomTextMovement.gameObject.transform.localPosition = bottomPos;
-        topTextMovement.SetActive(false);
-        bottomTextMovement.SetActive(false);
+        topTextMovement.localPosition = bottomPos;
+        bottomTextMovement.localPosition = bottomPos;
         StartCoroutine("topCycleHandler");
         StartCoroutine("bottomCycleHandler");
     }
@@ -91,32 +89,22 @@ public class DotScript : MonoBehaviour
             }
             lyricIndex++;
             lyricIndex %= 5;
-            topTextMovement.gameObject.transform.localPosition = bottomPos;
-            topTextMovement.SetActive(true);
-            float posZ = topTextMovement.gameObject.transform.localPosition.z;
-            float posY = topTextMovement.gameObject.transform.localPosition.y;
-            while (posZ <= 0.084f)
+            topTextMovement.localPosition = bottomPos;
+            float posZ = topTextMovement.localPosition.z;
+            float posY = topTextMovement.localPosition.y;
+            while (posZ <= 0.09f)
             {
                 posZ += 0.001f;
-                if (posY < 0.015)
-                {
-                    posY += 0.0008f;
-                }
-                if (posZ > 0.078 && posY > 0.011)
-                {
-                    posY -= 0.0015f;
-                }
-                topTextMovement.gameObject.transform.localPosition = new Vector3(0f, posY, posZ);
+                topTextMovement.localPosition = new Vector3(0f, posY, posZ);
                 float speed = 0.02f * upScrollSpeed;
                 yield return new WaitForSecondsRealtime(speed);
             }
-            topTextMovement.SetActive(false);
         }
     }
 
     IEnumerator bottomCycleHandler()
     {
-        bottomTextMovement.gameObject.transform.localPosition = new Vector3(0f, 0.0152f, 0.1f);
+        bottomTextMovement.localPosition = new Vector3(0f, 0.0152f, 0.1f);
         yield return new WaitForSecondsRealtime(3f);
         scrollable = true;
         while (!moduleSolved)
@@ -132,26 +120,16 @@ public class DotScript : MonoBehaviour
             }
             lyricIndex++;
             lyricIndex %= 5;
-            bottomTextMovement.gameObject.transform.localPosition = bottomPos;
-            bottomTextMovement.SetActive(true);
-            float posZ = bottomTextMovement.gameObject.transform.localPosition.z;
-            float posY = bottomTextMovement.gameObject.transform.localPosition.y;
-            while (posZ <= 0.084f)
+            bottomTextMovement.localPosition = bottomPos;
+            float posZ = bottomTextMovement.localPosition.z;
+            float posY = bottomTextMovement.localPosition.y;
+            while (posZ <= 0.09f)
             {
                 posZ += 0.001f;
-                if (posY < 0.015)
-                {
-                    posY += 0.0008f;
-                }
-                if (posZ > 0.078 && posY > 0.011)
-                {
-                    posY -= 0.0015f;
-                }
-                bottomTextMovement.gameObject.transform.localPosition = new Vector3(0f, posY, posZ);
+                bottomTextMovement.localPosition = new Vector3(0f, posY, posZ);
                 float speed = 0.02f * upScrollSpeed;
                 yield return new WaitForSecondsRealtime(speed);
             }
-            bottomTextMovement.SetActive(false);
         }
     }
 
@@ -180,8 +158,8 @@ public class DotScript : MonoBehaviour
         if (submittable)
         {
             submittable = false;
-            float top = topTextMovement.gameObject.transform.localPosition.z;
-            float bottom = bottomTextMovement.gameObject.transform.localPosition.z;
+            float top = topTextMovement.localPosition.z;
+            float bottom = bottomTextMovement.localPosition.z;
             Debug.LogFormat("[Dot #{0}] Submit button pressed, selected lyric is {1}", moduleId, selectedLyric);
             if (selectedLyric == chosenLyrics[lyricsSubmitted])
             {
@@ -231,8 +209,8 @@ public class DotScript : MonoBehaviour
 
     IEnumerator StrikeAnim()
     {
-        float top = topTextMovement.gameObject.transform.localPosition.z;
-        float bottom = bottomTextMovement.gameObject.transform.localPosition.z;
+        float top = topTextMovement.localPosition.z;
+        float bottom = bottomTextMovement.localPosition.z;
         if (top > bottom)
         {
             bottomText.color = new Color(1f, 0f, 0f, 1f);
@@ -258,101 +236,44 @@ public class DotScript : MonoBehaviour
     {
         StopCoroutine("topCycleHandler");
         StopCoroutine("bottomCycleHandler");
-        float topY = topTextMovement.gameObject.transform.localPosition.y;
-        float bottomY = bottomTextMovement.gameObject.transform.localPosition.y;
-        float topZ = topTextMovement.gameObject.transform.localPosition.z;
-        float bottomZ = bottomTextMovement.gameObject.transform.localPosition.z;
-        while (topZ <= 0.084f && bottomZ <= 0.084f)
+        float topZ = topTextMovement.localPosition.z;
+        float bottomZ = bottomTextMovement.localPosition.z;
+        while (topZ <= 0.09f && bottomZ <= 0.09f)
         {
             topZ += 0.001f;
             bottomZ += 0.001f;
-            if (topY < 0.015)
-            {
-                topY += 0.0008f;
-            }
-            if (topZ > 0.078 && topY > 0.011)
-            {
-                topY -= 0.0015f;
-            }
-            if (bottomY < 0.015)
-            {
-                bottomY += 0.0008f;
-            }
-            if (bottomZ > 0.078 && bottomY > 0.011)
-            {
-                bottomY -= 0.0015f;
-            }
-            topTextMovement.gameObject.transform.localPosition = new Vector3(0f, topY, topZ);
-            bottomTextMovement.gameObject.transform.localPosition = new Vector3(0f, bottomY, bottomZ);
+            topTextMovement.localPosition = new Vector3(0f, 0.015f, topZ);
+            bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
             yield return new WaitForSecondsRealtime(0.03f);
         }
         if (topZ > 0.084f)
         {
-            topTextMovement.gameObject.transform.localPosition = bottomPos;
-            topY = topTextMovement.gameObject.transform.localPosition.y;
-            topZ = topTextMovement.gameObject.transform.localPosition.z;     
+            topTextMovement.localPosition = bottomPos;
+            topZ = topTextMovement.localPosition.z;     
             topText.text = "全てあなたの所為です。";
-            while (bottomZ <= 0.095f || topZ < 0f)
+            while (topZ < 0f)
             {
                 if (topZ < 0f)
                 {
                     topZ += 0.001f;
-                    topTextMovement.gameObject.transform.localPosition = new Vector3(0f, topY, topZ);
-                }
-                if (topY < 0.015)
-                {
-                    topY += 0.0008f;
-                }
-                if (bottomZ <= 0.084f)
-                {
-                    bottomZ += 0.001f;
-                    bottomTextMovement.gameObject.transform.localPosition = new Vector3(0f, bottomY, bottomZ);
-                    if (bottomZ > 0.078 && bottomY > 0.011)
-                    {
-                        bottomY -= 0.0015f;
-                    }
-                }
-                else
-                {
-                    bottomTextMovement.SetActive(false);
+                    topTextMovement.localPosition = new Vector3(0f, 0.015f, topZ);
                 }
                 yield return new WaitForSecondsRealtime(0.03f);
             }
-            bottomTextMovement.SetActive(false);
         }
         else if (bottomZ > 0.084f)
         {
-            bottomTextMovement.gameObject.transform.localPosition = bottomPos;
-            bottomY = bottomTextMovement.gameObject.transform.localPosition.y;
-            bottomZ = bottomTextMovement.gameObject.transform.localPosition.z;
+            bottomTextMovement.localPosition = bottomPos;
+            bottomZ = bottomTextMovement.localPosition.z;
             bottomText.text = "全てあなたの所為です。";
-            while (topZ <= 0.095f || bottomZ < 0f)
-            { 
+            while (bottomZ < 0f)
+            {
                 if (bottomZ < 0f)
                 {
                     bottomZ += 0.001f;
-                    bottomTextMovement.gameObject.transform.localPosition = new Vector3(0f, bottomY, bottomZ);
+                    bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
                 }
-                if (bottomY < 0.015)
-                {
-                    bottomY += 0.0008f;
-                }
-                if (topZ <= 0.084f)
-                {
-                    topZ += 0.001f;
-                    topTextMovement.gameObject.transform.localPosition = new Vector3(0f, topY, topZ);
-                    if (topZ > 0.078 && topY > 0.011)
-                    {
-                        topY -= 0.0015f;
-                    }
-                }
-                else
-                {
-                    topTextMovement.SetActive(false);
-                }
-                yield return new WaitForSecondsRealtime(0.03f);
             }
-            topTextMovement.SetActive(false);
         }
         yield return null;
     }
@@ -361,8 +282,8 @@ public class DotScript : MonoBehaviour
     {
         if (!moduleSolved)
         {
-            float top = topTextMovement.gameObject.transform.localPosition.z;
-            float bottom = bottomTextMovement.gameObject.transform.localPosition.z;
+            float top = topTextMovement.localPosition.z;
+            float bottom = bottomTextMovement.localPosition.z;
             if (top > bottom)
             {
                 selectedLyric = bottomText.text;
