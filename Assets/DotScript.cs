@@ -246,7 +246,7 @@ public class DotScript : MonoBehaviour
             bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
             yield return new WaitForSecondsRealtime(0.03f);
         }
-        if (topZ > 0.084f)
+        if (topZ > 0.09f)
         {
             topTextMovement.localPosition = bottomPos;
             topZ = topTextMovement.localPosition.z;     
@@ -258,10 +258,21 @@ public class DotScript : MonoBehaviour
                     topZ += 0.001f;
                     topTextMovement.localPosition = new Vector3(0f, 0.015f, topZ);
                 }
+                if (bottomZ < 0.09f)
+                {
+                    bottomZ += 0.001f;
+                    bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
+                }
+                yield return new WaitForSecondsRealtime(0.03f);
+            }
+            while (bottomZ < 0.1f)
+            {
+                bottomZ += 0.001f;
+                bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
                 yield return new WaitForSecondsRealtime(0.03f);
             }
         }
-        else if (bottomZ > 0.084f)
+        else if (bottomZ > 0.09f)
         {
             bottomTextMovement.localPosition = bottomPos;
             bottomZ = bottomTextMovement.localPosition.z;
@@ -273,6 +284,18 @@ public class DotScript : MonoBehaviour
                     bottomZ += 0.001f;
                     bottomTextMovement.localPosition = new Vector3(0f, 0.015f, bottomZ);
                 }
+                if (topZ < 0.09f)
+                {
+                    topZ += 0.001f;
+                    topTextMovement.localPosition = new Vector3(0f, 0.015f, topZ);
+                }
+                yield return new WaitForSecondsRealtime(0.03f);
+            }
+            while (topZ < 0.1f)
+            {
+                topZ += 0.001f;
+                topTextMovement.localPosition = new Vector3(0f, 0.015f, topZ);
+                yield return new WaitForSecondsRealtime(0.03f);
             }
         }
         yield return null;
@@ -365,5 +388,20 @@ public class DotScript : MonoBehaviour
             }
         }
 
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        upScroll.OnInteract();
+        while (!moduleSolved)
+        {
+            if (chosenLyrics[lyricsSubmitted] == selectedLyric)
+            {
+                upScroll.OnInteractEnded();
+                submit.OnInteract();
+                upScroll.OnInteract();
+            }
+            yield return null;
+        }
     }
 }
