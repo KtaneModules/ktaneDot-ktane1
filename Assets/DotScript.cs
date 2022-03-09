@@ -105,7 +105,7 @@ public class DotScript : MonoBehaviour
     IEnumerator bottomCycleHandler()
     {
         bottomTextMovement.localPosition = new Vector3(0f, 0.0152f, 0.1f);
-        yield return new WaitForSecondsRealtime(3f);
+        while (topTextMovement.localPosition.z < 0) { yield return null; }
         scrollable = true;
         while (!moduleSolved)
         {
@@ -161,7 +161,7 @@ public class DotScript : MonoBehaviour
             float top = topTextMovement.localPosition.z;
             float bottom = bottomTextMovement.localPosition.z;
             Debug.LogFormat("[Dot #{0}] Submit button pressed, selected lyric is {1}", moduleId, selectedLyric);
-            if (selectedLyric == chosenLyrics[lyricsSubmitted])
+            if (selectedLyric == chosenLyrics[lyricsSubmitted] && !submittedText[lyricIndex])
             {
                 audio.PlaySoundAtTransform("Correct", transform);
                 submittedText[lyricIndex] = true; 
@@ -189,19 +189,17 @@ public class DotScript : MonoBehaviour
             }
             else
             {
-                bool shouldStrike = true;
-                if (submittedText[lyricIndex]) { shouldStrike = false;}
-                if (shouldStrike)
+                if (submittedText[lyricIndex])
+                {
+                    audio.PlaySoundAtTransform("Correct", transform);
+                    submittable = true;
+                }
+                else
                 {
                     module.HandleStrike();
                     audio.PlaySoundAtTransform("Wrong", transform);
                     Debug.LogFormat("[Dot #{0}] But that is wrong, strike!", moduleId);
                     StartCoroutine("StrikeAnim");
-                }
-                else
-                {
-                    audio.PlaySoundAtTransform("Correct", transform);
-                    submittable = true;
                 }
             }
         }
