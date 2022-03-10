@@ -24,7 +24,7 @@ public class DotScript : MonoBehaviour
     };
     private string[] chosenLyrics = new string[5];
     private int chosenSong;
-    private static Vector3 bottomPos = new Vector3(0f, 0.015f, -0.09f);
+    private static Vector3 bottomPos = new Vector3(0f, 0.016f, -0.09f);
     private string[] shuffledLyrics = new string[5];
     private int lyricIndex = 0, lyricsSubmitted = 0;
     private string selectedLyric;
