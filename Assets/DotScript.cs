@@ -13,13 +13,14 @@ public class DotScript : MonoBehaviour
     public KMBombInfo bomb;
 	public KMBombModule module;
     public KMSelectable submit;
-    public KMSelectable upScroll;
+    public KMSelectable fastScroll;
+    public KMSelectable slowScroll;
     public TextMesh topText, bottomText;
     public Transform topTextMovement, bottomTextMovement;
 
     private string[][] songLyrics = new string[][] {
         new string[] { "大変申し訳ありませんが、", "この動画はアップロード者が削除した為、", "ご覧になることができません。", "またの御アクセスをお待ちしております。", "携帯ゲームの裏、", "フタを開けてみて、", "空っぽだったはずなのに、", "淡い光が漏れていたので、", "いたずらに覗いたら、", "デンチが腐っていた。", "掌から滑り落ち、", "叩きつけられて、", "やむ終えず覗いたら、", "画面が割れていました。", "たわむれに書いた傘の中、", "ひとりでに骨が折れ、", "心地よい音　頭蓋の中、", "湿って砕けました。", "湧き出た光る水を、", "飲んでみたくなり、", "空っぽだったはずなのに、", "器から溢れてしまいそうで、", "ひとくち含んでみたら、", "甘すぎて吐き出したよ。", "漏れ出た黒い液が、", "怖くてたまらないのに", "指先が触れてしまい、", "血液と混ざりました。", "心地よい音　頭蓋の中、", "ひとりでに骨が折れ、", "たわむれに書いた傘の中、", "全てあなたの所為です。", "心地よい音　頭蓋の中、", "ひとりでに骨が折れ、", "たわむれに書いた傘の中、", "全て██の所為です。", "沢山の目が光り、", "見つめていたのか。", "またの御アクセスをお待ちしております。" }, 
-        new string[] { "大変申し訳ありませんが、", "この動画はアップロード者が削除した為、", "ご覧になることができません。", "またの御アクセスをお待ちしております。", "蛍光灯の明かりの下、", "艷やかな足跡がある、", "シアン化物の甘い匂いで、", "手足が痺れはじめ。", "からだ中に差し込まれてく、", "いかにもな理由を添えて", "どうして針はこちらを向いて、", "繰り言を吐くの？", "砂を噛み、", "鏤骨を齧り、", "ナメクジが死んでました。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "後は野となれ山となれと、", "何も成し遂げられず居る、", "偶像崇拝妄信者が、", "溜飲を下げる。", "四辺形に収容された、", "路傍の人の慰みが、", "植え付ける様にこちらを向いて、", "咎めるのでしょう。", "砂を噛み、", "鏤骨を齧り、", "ナメクジが溶けていました。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "這いずり方が、", "思い出せなくなりました、", "全てあなたの所為です。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "柔らかい場所を、", "沢山の指先で、", "触れようとしていたのか。", "またの御アクセスをお待ちしております。" },
+        new string[] { "大変申し訳ありませんが、", "この動画はアップロード者が削除した為、", "ご覧になることができません。", "またの御アクセスをお待ちしております。", "蛍光灯の明かりの下、", "艷やかな足跡がある、", "シアン化物の甘い匂いで、", "手足が痺れはじめ。", "からだ中に差し込まれてく、", "いかにもな理由を添えて、", "どうして針はこちらを向いて、", "繰り言を吐くの？", "砂を噛み、", "鏤骨を齧り、", "ナメクジが死んでました。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "後は野となれ山となれと、", "何も成し遂げられず居る、", "偶像崇拝妄信者が、", "溜飲を下げる。", "四辺形に収容された、", "路傍の人の慰みが、", "植え付ける様にこちらを向いて、", "咎めるのでしょう。", "砂を噛み、", "鏤骨を齧り、", "ナメクジが溶けていました。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "這いずり方が、", "思い出せなくなりました、", "全てあなたの所為です。", "それは万有引力の、", "様なモノであり、", "抗えば抗う程、", "青く燃え上がるのです。", "それはテレメトリ信号が、", "指し示す通り、", "もがく腕や足はもう、", "意味をなさないのです。", "柔らかい場所を、", "沢山の指先で、", "触れようとしていたのか。", "またの御アクセスをお待ちしております。" },
         new string[] { "本日は＊＊＊に", "御アクセス頂き、", "ありがとうございます", "大変申し訳ありませんが、", "この動画はアップロード者が＊＊＊した為、", "ご覧になることができません。", "またの御アクセスをお待ちしております。", "穴の空いた両の手で、", "喉の渇きは潤せず、", "甘いはずの水は、", "掬っても零れてゆく。", "穴の空いた両の手で、", "目を遮ることは出来ず、", "柔らかな熱源が、", "視神経を焼き切りました。", "腕の無い三重の", "振り子が描き出す背骨を、", "短慮な烏が", "啄むのでした。", "不快な音を鳴らして、", "無い爪を立てる、", "形骸化した心地よさには、", "遅効性の毒があるのです。", "見たいモノだけを見て、", "目が覚めた時はすでに遅し、", "死に至るでしょう。", "全てあなたの所為です。", "穴の空いた両の手で、", "逃げ水を追いかけて行く、", "気が付けば遠くまで、", "歩いてしまいました。", "穴の空いた両の手で、", "硝子の向こうをそっと見る、", "意味のない言葉は、", "此の世に存在しないのです。", "陰になり日向になり、", "顰蹙の密売商人が、", "土足で踏み込んで", "来るのでした。", "ただ緩やかに黄昏れて行く、", "誰も止め方がわからずに、", "心臓の位置を避けるようにと", "横から杭が打ち込まれました。", "不快な音を鳴らして、無い爪を立てる、", "形骸化した心地よさには、", "遅効性の毒があるのです。", "見たいモノだけを見て、", "信じたいモノを信じ、", "沢山の足の音が、", "近づいていたのか。", "またの御アクセスをお待ちしております。" },
     };
     private string[] chosenLyrics = new string[5];
@@ -38,8 +39,10 @@ public class DotScript : MonoBehaviour
     void Awake()
     {
     	moduleId = moduleIdCounter++;
-        upScroll.OnInteract += delegate { upScrollHandler(); return false; };
-        upScroll.OnInteractEnded += release;
+        fastScroll.OnInteract += delegate { upScrollHandler(0); return false; };
+        fastScroll.OnInteractEnded += release;
+        slowScroll.OnInteract += delegate { upScrollHandler(1); return false; };
+        slowScroll.OnInteractEnded += release;
         submit.OnInteract += delegate { submitHandler(); return false; };
         module.OnActivate += Activate;
         bomb.OnBombExploded += delegate
@@ -133,12 +136,21 @@ public class DotScript : MonoBehaviour
         }
     }
 
-    void upScrollHandler()
+    void upScrollHandler(int k)
     {
         if (!moduleSolved && scrollable)
         {
-            upScrollSpeed = 0.000001f;
-            audioRef = audio.PlaySoundAtTransformWithRef("Fast Forward", transform);
+            switch (k)
+            {
+                case 0:
+                    upScrollSpeed = 0.000001f;
+                    audioRef = audio.PlaySoundAtTransformWithRef("Fast Forward", transform);
+                    break;
+                case 1:
+                    upScrollSpeed = 5f;
+                    audioRef = audio.PlaySoundAtTransformWithRef("slow", transform);
+                    break;
+            }
             scrolling = true;
         }
     }
@@ -317,22 +329,32 @@ public class DotScript : MonoBehaviour
     }
     //Twitch Plays
 #pragma warning disable 414
-    private readonly string TwitchHelpMessage = @"!{0} scroll 5 to hold the scroll button for 5 seconds, !{0} submit [lyric] to submit [lyric] when it displays on the module, !{0} submit to press the submit button";
+    private readonly string TwitchHelpMessage = @"!{0} fastscroll 5 to hold the top left scroller for 5 seconds, !{0} slowscroll 5 to hold the bottom left scroller for 5 seconds, !{0} submit [lyric] to submit [lyric] when it displays on the module, !{0} submit to press the submit button";
 #pragma warning restore 414
 
     IEnumerator ProcessTwitchCommand(string command)
     {
         string[] parameters = command.Split(' ');
         Match m;
-        if ((m = Regex.Match(command.Trim().ToLowerInvariant(), "scroll (\\d{1,2})")).Success)
+        if ((m = Regex.Match(command.Trim().ToLowerInvariant(), "fastscroll (\\d{1,2})")).Success)
         {
             float c;
             if (!float.TryParse(m.Groups[1].Value, out c))
                 yield break;
             yield return null;
-            upScroll.OnInteract();
+            fastScroll.OnInteract();
             yield return new WaitForSecondsRealtime(c);
-            upScroll.OnInteractEnded();
+            fastScroll.OnInteractEnded();
+        }
+        else if ((m = Regex.Match(command.Trim().ToLowerInvariant(), "slowscroll (\\d{1,2})")).Success)
+        {
+            float d;
+            if (!float.TryParse(m.Groups[1].Value, out d))
+                yield break;
+            yield return null;
+            slowScroll.OnInteract();
+            yield return new WaitForSecondsRealtime(d);
+            slowScroll.OnInteractEnded();
         }
         else if (Regex.IsMatch(command, @"^\s*submit\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
         {
@@ -364,12 +386,12 @@ public class DotScript : MonoBehaviour
             }
             if (check)
             {
-                upScroll.OnInteract();
+                fastScroll.OnInteract();
                 while (true)
                 {
                     if (l == selectedLyric)
                     {
-                        upScroll.OnInteractEnded(); 
+                        fastScroll.OnInteractEnded(); 
                         submit.OnInteract();                        
                         yield break;
                     }
@@ -390,14 +412,14 @@ public class DotScript : MonoBehaviour
 
     IEnumerator TwitchHandleForcedSolve()
     {
-        upScroll.OnInteract();
+        fastScroll.OnInteract();
         while (!moduleSolved)
         {
             if (chosenLyrics[lyricsSubmitted] == selectedLyric)
             {
-                upScroll.OnInteractEnded();
+                fastScroll.OnInteractEnded();
                 submit.OnInteract();
-                upScroll.OnInteract();
+                fastScroll.OnInteract();
             }
             yield return null;
         }

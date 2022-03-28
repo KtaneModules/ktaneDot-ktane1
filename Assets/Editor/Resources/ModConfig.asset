@@ -25,6 +25,6 @@ MonoBehaviour:
     Mod ID: dot
 
     Manual Link: https://ktane.timwi.de/HTML/Dot.html'
-  version: 1.1.8
+  version: 1.2.1
   outputFolder: build
   previewImage: {fileID: 2800000, guid: 8f81f4ff7214b9d4780cc8ce2755863e, type: 3}
