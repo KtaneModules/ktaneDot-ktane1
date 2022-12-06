@@ -176,7 +176,7 @@ public class DotScript : MonoBehaviour
             if (selectedLyric == chosenLyrics[lyricsSubmitted] && !submittedText[lyricIndex])
             {
                 audio.PlaySoundAtTransform("Correct", transform);
-                submittedText[lyricIndex] = true; 
+                submittedText[lyricIndex] = true;
                 lyricsSubmitted++;
                 if (top > bottom)
                 {
@@ -384,15 +384,31 @@ public class DotScript : MonoBehaviour
                     check = true;
                 }
             }
-            if (check)
+            if (!check)
+            {
+                yield return "sendtochaterror You're trying to submit a lyric not present at all in the module.";
+                yield break;
+            }
+            var v = shuffledLyrics.Select((b, i) => b == l ? i : -1).Where(i => i != -1).ToArray();
+            bool s = true;
+            foreach (int u in v)
+            {
+                s = s && submittedText[(u + 1) % submittedText.Length];
+            }
+            if (s) 
+            {
+                yield return "sendtochaterror You're trying to submit an already-submitted lyric.";
+                yield break;
+            }
+            else
             {
                 fastScroll.OnInteract();
                 while (true)
                 {
-                    if (l == selectedLyric)
+                    if (l == selectedLyric && !submittedText[lyricIndex])
                     {
-                        fastScroll.OnInteractEnded(); 
-                        submit.OnInteract();                        
+                        fastScroll.OnInteractEnded();
+                        submit.OnInteract();
                         yield break;
                     }
                     else
@@ -400,11 +416,6 @@ public class DotScript : MonoBehaviour
                         yield return null;
                     }
                 }
-            }
-            else
-            {
-                yield return "sendtochaterror You're trying to submit a lyric not present at all in the module.";
-                yield break;
             }
         }
 
