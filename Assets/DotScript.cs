@@ -102,6 +102,7 @@ public class DotScript : MonoBehaviour
                 topTextMovement.localPosition = new Vector3(0f, posY, Mathf.Lerp(-0.09f, 0.09f, delta));
                 yield return null;
             }
+            while (bottomTextMovement.localPosition.z < 0) { yield return null; }
         }
     }
 
@@ -133,6 +134,7 @@ public class DotScript : MonoBehaviour
                 bottomTextMovement.localPosition = new Vector3(0f, posY, Mathf.Lerp(-0.09f, 0.09f, delta));
                 yield return null;
             }
+            while (topTextMovement.localPosition.z < 0) { yield return null; }
         }
     }
 
@@ -415,6 +417,7 @@ public class DotScript : MonoBehaviour
                     {
                         yield return null;
                     }
+                    yield return "trycancel";
                 }
             }
         }
