@@ -82,6 +82,7 @@ public class DotScript : MonoBehaviour
         while (!moduleSolved)
         {
             topText.text = shuffledLyrics[lyricIndex];
+            selectedLyric = topText.text;
             if (submittedText[lyricIndex + 1 > 4 ? 0 : lyricIndex + 1])
             {
                 topText.color = new Color(0f, 1f, 0f, 1f);
@@ -108,12 +109,13 @@ public class DotScript : MonoBehaviour
 
     IEnumerator bottomCycleHandler()
     {
-        bottomTextMovement.localPosition = new Vector3(0f, 0.0152f, 0.1f);
+        bottomTextMovement.localPosition = bottomPos;
         while (topTextMovement.localPosition.z < 0) { yield return null; }
         scrollable = true;
         while (!moduleSolved)
         {
             bottomText.text = shuffledLyrics[lyricIndex];
+            selectedLyric = bottomText.text;
             if (submittedText[lyricIndex + 1 > 4 ? 0 : lyricIndex + 1])
             {
                 bottomText.color = new Color(0f, 1f, 0f, 1f);
@@ -313,22 +315,6 @@ public class DotScript : MonoBehaviour
         yield return null;
     }
 
-    void Update()
-    {
-        if (!moduleSolved)
-        {
-            float top = topTextMovement.localPosition.z;
-            float bottom = bottomTextMovement.localPosition.z;
-            if (top > bottom)
-            {
-                selectedLyric = bottomText.text;
-            }
-            else if (bottom > top)
-            {
-                selectedLyric = topText.text;
-            }
-        }
-    }
     //Twitch Plays
 #pragma warning disable 414
     private readonly string TwitchHelpMessage = @"!{0} fastscroll 5 to hold the top left scroller for 5 seconds, !{0} slowscroll 5 to hold the bottom left scroller for 5 seconds, !{0} submit [lyric] to submit [lyric] when it displays on the module, !{0} submit to press the submit button";
@@ -405,20 +391,13 @@ public class DotScript : MonoBehaviour
             else
             {
                 fastScroll.OnInteract();
-                while (true)
+                while (!(l == selectedLyric && !submittedText[lyricIndex]))
                 {
-                    if (l == selectedLyric && !submittedText[lyricIndex])
-                    {
-                        fastScroll.OnInteractEnded();
-                        submit.OnInteract();
-                        yield break;
-                    }
-                    else
-                    {
-                        yield return null;
-                    }
-                    yield return "trycancel";
+                    yield return null;
                 }
+                fastScroll.OnInteractEnded();
+                submit.OnInteract();
+                yield break;
             }
         }
 
